@@ -1,5 +1,5 @@
 # a list of all the programs in your package  main4
-PROGS = testAlgebra testSolver sampleDyn makeSubsection TestAl calkowanie testDissInclusion #TestCooos#main4#main2 main3
+PROGS =  sampleDyn makeSubsection CAProof #TestCooos#main4#main2 main3
 
 # a list of all your units to be linked with your programs
 OTHERS = algebra vectorFieldMaker BrusselatorTools setInOut solverDissPDE DSubSections
