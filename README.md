@@ -5,7 +5,7 @@ The code is used for computer-assisted proof of the existence of a periodic orbi
 $$\begin{cases}
  u_t = d_1  u_{xx}- (B+1)u +u^2v + A \sin(x)   \text{ for } (x,t)\in (0,\pi)\times(0,\infty),\\
  v_t = d_2 v_{xx} + Bu - u^2v    \text{ for } (x,t)\in (0,\pi)\times(0,\infty),\\
-u(t,x) = 0 \text{ for }  (x,t)\in \{0,\pi\} \times (0,\infty),\\
+u(t,x) = v(t,x )= 0 \text{ for }  (x,t)\in {0,\pi} \times (0,\infty),\\
 u(0,x) = u^0(x), v(0,x) = v^0(x)\ \textrm{for}\ x\in(0,\pi).
 \end{cases},$$
 
@@ -60,82 +60,64 @@ sampleDyn 100 10 1000
 -------------
 starting time, duration of simulation, number of steps
 ```
-Will output sampled points $1000$ from the trajectory at times $[100,110]$ starting from initial date and save them to file `output2.txt`.
+Will output uniformly sampled points $1000$ from the trajectory at times $[100,110]$ starting from initial date and save them to file `output2.txt`.
 
-## ChafeeInfante\findPeriodicPoint
+##makeSubsection.cpp
 
-Program for finding periodic orbits of the Chafee-Infate equation. It tries to find a fixed periodic point by iterating the Galerkin approximation of the map.
+Program for finding periodic orbits of the Brusselator system. It tries to find a fixed periodic point by iterating the Galerkin approximation of some Poincare  map. Additionally after finding the point it proposed the section (additionally with intermediate sections if set).
 
-$$
-T(u_0) = u(1,0;u_0).
-$$
+- The initial data for searching is taken from the content of file `initialValue.txt`. This initial data determines the size of the Galerkin projection.
+- In file `section.txt` we set the obtions for this program
+```
+0 0.7
+1
+1e-5
+------
+numVariable Value
+numberOfSection
+MaxAbsEigenValue
+```
+- $numVariable$ and $Value$ define the starting Poincare map and section for which we are searching for which we are searching for fixed point. The $numVariable$ defines the number of variable which is set to be equal to $Value$ at this Section.
+- The $numberOfSection$ defines how many section program will output.
+- The $MaxAbsEigenValue$ defines treshold for eigenvalues, for which the coresponding eigenvector are taken as the cordinates on ouputed section. Rest of them is taken by the other method.
+- It the file 'subsections.txt' it ouputs subsections, which orgins are in trajectory of the numerical aproximation of periodic orbit.
 
-- The initial data for searching is taken from the content of file `ChafeeInfante\textFiles\initialValue.txt`. This initial data determines the size of the Galerkin projection.
-- It assumes that parameter $\omega = 2\pi$, so the value of $\omega$ in file `ChafeeInfante\textFiles\params.txt` does not matter.
-- It outputs the proposed approximation of the founded periodic orbit at zero. It also outputs an approximation of the variational matrix for the map $T$.
 
+## CAProof.cpp
 
-## ChafeeInfante\CAProof.cpp
+This program is designed to prove the existence of a periodic orbit. It does so by checking whether for a defined set $X^0$ satisfies the following condition:
 
-This program is designed to prove the existence of a periodic orbit and demonstrate its local attraction. It does so by checking whether a defined set $X^0$ satisfies the following condition:
+$$ P(X^0) \subset X^0 $$
 
-$$ T(X^0) \subset X^0 $$
-
-If this condition is satisfied, it confirms the existence of a periodic orbit. The program utilizes a rigorous C0 algorithm for integrating partial differential equations (PDEs) to compute the image. Additionally, it attempts to prove that the orbit is locally attracting by verifying:
-
-$$
-||\frac{\partial T}{\partial x}(X_0)||_{C_0} < 1.
-$$
-
-The computation of derivatives employs a rigorous C1 integration algorithm.
-
+For some Poincare map.
+If this condition is satisfied, it confirms the existence of a periodic orbit. The program utilizes a rigorous C0 algorithm for integrating partial differential equations (PDEs) to compute the image.
 Here are some details about the program and its inputs:
 
-- The set $X^0$ is centered around an initial condition $u^0$ read from `ChafeeInfante\textFiles\initialValue.txt`,
-- It assumes that parameter $\omega = 2\pi$, so the value of $\omega$ in file `ChafeeInfante\textFiles\params.txt` does not matter.
-- Options for setting up the assisted proof can be found in `ChafeeInfante\textFiles\sampleDynOptions.txt`, including parameters such as:
+- The section which defined Poincare map is read from `subsections.txt`,
+- In file `initialValuePoincare.txt`, we set:
 ```
-1e-4 1 3 
-6 14
-9 17 0
+{[-1e-4,1e-4],[-1e-4,1e-4],[-1e-4,1e-4],[-1e-7,1e-7]} {[-10,10],[4,4]}
 -------------
-eps , C, s
-mainC0Size, fullC0Size
-mainC1Size, fullC1Size, expColumns
+L  {[C^-,C^+], [s,s]}
 
 ```
+Which are used in defining $X^0$
 - The set $X_0$ is defined as follows:
    $$X^0 = X_P^0 + X_Q^0,$$
-  
+
 where
-$$X_P^0 = u^0(x)+ [-1,1]eps*\sum_{i=1}^n \sin((2i-1)x),$$
-
+$$X_P^0 = x^0+ Aq_0$$
+ - Parameter $L$ defines entries of $q_0$: first is 0 the next are taken from the $L$
 and
-
 $$
-    X_Q^0 = \sum_{i=n+1}^\infty \frac{C[-1,1]}{(2i-1)^s}\sin((2i-1)x).
+    X_Q^0 = (\sum_{i=n+1}^\infty \frac{C[-1,1]}{(2i-1)^s}\sin((2i-1)x),\sum_{i=n+1}^\infty \frac{C[-1,1]}{(2i-1)^s}\sin((2i-1)x) ).
 $$
+Here, $n$ depends on the size of the of size of setions in the 'subsection.txt'.
 
-Here, $n$ depends on the size of the initial condition.
-
-- For C0 computation, the parameters are set as follows:
-   - `mainC0Size`: The number of modes considered for the differential inclusion.
-   - `fullC0Size`: The number of modes explicitly represented.
+   - The x^0 comes from orgin of Poincare section.
+   - The number of modes explicitly represented.
    
 The rigorous C0 integration is performed in the odd subspace of Fourier coefficients.
-
-- For C1 computation, the parameters are set as follows:
-   - `mainC1Size`: The number of modes considered for each variable $(u,h)$ in the differential inclusion.
-   - `fullC1Size`: The number of modes explicitly represented for each variable $(u,h)$.
-   - `expColumns`: Number of columns where derivatives are computed explicitly.
-
-The rigorous C1 integration is conducted in full space, not just in the odd subspace. In this case, there are variables representing variational equations. Therefore, the actual number of modes used for differential inclusion is $2 * \text{mainC1Size}$ and the number of modes explicitly represented is $2 * \text{fullC1Size}$.
-
-The remaining columns are computed by setting them to be:
-
-$$
-    X^{0,h} = \sum_{i=\text{expColumns}+1}^\infty u_i\sin(ix),\quad \text{where } u_i\in[-1,1].
-$$
 
 ## Code Information
 
