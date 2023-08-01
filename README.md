@@ -107,12 +107,12 @@ Which are used in defining $X^0$
 
 where
 $$X_P^0 = x^0+ Aq_0$$
- - Parameter $L$ defines entries of $q_0$: first is 0 the next are taken from the $L$
+ - Parameter $L$ defines entries of $q_0$: first is 0 the next are taken from the $L,$
 and
 $$
-    X_Q^0 = (\sum_{i=n+1}^\infty \frac{C[-1,1]}{(2i-1)^s}\sin((2i-1)x),\sum_{i=n+1}^\infty \frac{C[-1,1]}{(2i-1)^s}\sin((2i-1)x) ).
+    X_Q^0 = (\sum_{i=n+1}^\infty \frac{[C^-,C^+]}{(2i-1)^s}\sin((2i-1)x),\sum_{i=n+1}^\infty \frac{[C^-,C^+]}{(2i-1)^s}\sin((2i-1)x) ),
 $$
-Here, $n$ depends on the size of the of size of setions in the 'subsection.txt'.
+Here, $n$ depends on the size of the of size of setions in the 'subsection.txt', $C$ and $s$ from file `initialValuePoincare.txt`
 
    - The x^0 comes from orgin of Poincare section.
    - The number of modes explicitly represented.
