@@ -34,9 +34,10 @@ The programs use data from files:
 represents initial data in the form
 
 $$
-u^0 = 3\sin(x) - 0sin(3x) - 0.5\sin(5x),\\
-v^0 = 4\sin(X) - 1\sin(3x) +0.5\sin(5x)
+u^0 = 3\sin(x) - 0sin(3x) - 0.5\sin(5x), \quad
+v^0 = 4\sin(x) - 1\sin(3x) +0.5\sin(5x).
 $$
+
 The same rule of indexsation applay to all vector coresponding to the finite part of points from the phase space.
 - Parameters ${d_1,d_2,B,A}$ are taken from file `params.txt` in the form 
 
@@ -46,21 +47,20 @@ The same rule of indexsation applay to all vector coresponding to the finite par
 {d_1,d_2,B,A}
 ```
 
-## ChafeeInfante/sampleDyn.cpp
+##sampleDyn.cpp
 
-Program for numerically integrating the Chafee-Infante system. 
+Program for numerically integrating the Brusselator system. 
 
 - Integrating in the space of odd coefficients.
-- The initial data is taken from the content of file `ChafeeInfante/textFiles/initialValue.txt`. The initial data determines the size of Gallerkin projection.
-- File `ChafeeInfante/textFiles/sampleDynOptions.txt` contains options for the program:
-
+- The initial data is taken from the content of file `initialValue.txt`. The initial data determines the size of Gallerkin projection.
+- By using program:
+- 
 ```
-0 1 2000
+sampleDyn 100 10 1000
 -------------
 starting time, duration of simulation, number of steps
 ```
-
-After running, the program should output sampled points from the trajectory and save them to file `ChafeeInfante/textFiles/sampleDynOutput.txt`.
+Will output sampled points $1000$ from the trajectory at times $[100,110]$ starting from initial date and save them to file `output2.txt`.
 
 ## ChafeeInfante\findPeriodicPoint
 
