@@ -25,24 +25,25 @@ The code contains 3 programs:
 - `testSolver`.
 
 The programs use data from files:
-- `ChafeeInfante/textFiles/initialValue.txt` - It contains coefficients for sine odd series used as initial data for the programs. For example,
+- `initialValue.txt` - It contains coefficients for sine odd series used as initial data for the programs. For example,
 
-```r
-{0.43,7.85996,-0.0231361,1.59666,-0.00129933,0.0913484,7.48643e-05,-0.0041776}   
+```
+{3,4,0,-1,0.5,0.5}   
 ```
 
 represents initial data in the form
 
 $$
-u^0 = 2\sin(x) - 0.5\sin(3x) - 0.125\sin(5x) + 0.3\sin(7x).
+u^0 = 3\sin(x) - 0sin(3x) - 0.5\sin(5x),\\
+v^0 = 4\sin(X) - 1\sin(3x) +0.5\sin(5x)
 $$
-
-- Parameters ${\lambda,\omega,A,B}$ are taken from file `ChafeeInfante/textFiles/params.txt` in the form 
+The same rule of indexsation applay to all vector coresponding to the finite part of points from the phase space.
+- Parameters ${d_1,d_2,B,A}$ are taken from file `params.txt` in the form 
 
 ```
-{2, 6.28318530718, 1.5, 1}
+{0.2, 0.02, 2, 1}
 -------------
-{lambda, omega, A, B}
+{d_1,d_2,B,A}
 ```
 
 ## ChafeeInfante/sampleDyn.cpp
