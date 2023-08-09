@@ -1,7 +1,7 @@
 
 # Brusselator-ComputerAssistedProof
 
-The code is used for computer-assisted proof of the existence of a periodic orbit and its attraction for the non-autonomous Chafee-Infante system:
+The code is used for computer-assisted proof of the existence of a periodic orbit and its attraction for the Brusselator system:
 
 ```math
 \begin{cases}
